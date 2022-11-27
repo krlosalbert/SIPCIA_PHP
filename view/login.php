@@ -1,9 +1,6 @@
-<?php 
-    
+<?php  
     $user = filter_input(INPUT_POST,'user'); 
     $password = filter_input(INPUT_POST,'password'); 
-   
-    
 ?>
 
 <!DOCTYPE html>
@@ -12,7 +9,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="static/css/bootstrap/bootstrap.min.css"/>
         <link rel="stylesheet" href="static/css/styleHead.css"/>
         <!-- <script src="../Js/jquery-3.4.1.min.js"></script> -->
         <title>SIPCIA</title>
@@ -47,12 +44,12 @@
 
                                             if(isset($_POST['btn1'])){ 
                                                                                            
-                                                $ModelUser = new ModelUser();  
+                                                $User = new User();  
                                         ?>
                                         <div class="alert alert-danger" role="alert">
                                             <strong>
                                                 <?php 
-                                                    echo $ModelUser->validacion($user,$password);  } 
+                                                    echo $User->validate($user,$password);  } 
                                                 ?> 
                                             </strong>
                                         </div>

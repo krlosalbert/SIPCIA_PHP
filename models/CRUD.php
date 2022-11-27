@@ -12,7 +12,7 @@
             $connect = $db->connect();
 
             $searchTable = ("INSERT INTO $tabledb ($fields) VALUES ($data)");
-            echo $searchTable;
+            //echo $searchTable;
             
             $sqlTable = mysqli_query($connect, $searchTable);
 
@@ -132,7 +132,7 @@
 
         public function ReadUpdate($tabledb=false, $field=false, $id=false){   
 
-            $db = new ConnectionDB();
+            $db = new Connection();
             $connect = $db->connect();
 
             $searchTable = "SELECT * FROM $tabledb WHERE $field=".$id;
@@ -152,7 +152,7 @@
 
         public function Update($tabledb=false, $fields=false, $field1=false, $id=false){   
             
-            $db = new ConnectionDB();
+            $db = new Connection();
             $connect = $db->connect();
 
             $searchTable = "UPDATE $tabledb SET $fields WHERE $field1=".$id;
@@ -170,7 +170,7 @@
 
         public function Delete($tabledb=false, $field=false, $id=false){   
 
-            $db = new ConnectionDB();
+            $db = new Connection();
             $connect = $db->connect();
 
             $searchTable = "DELETE FROM $tabledb WHERE $field=".$id;
