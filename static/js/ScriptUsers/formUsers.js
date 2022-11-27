@@ -1,8 +1,7 @@
-const form = document.getElementById("form");
-
 //llamo los campos por sus id y le asigno variables
 const userCedula = document.getElementById("cedula");
 const userName = document.getElementById("name");
+const userLastName = document.getElementById("lastName");
 const userEmail = document.getElementById("email");
 const userRole = document.getElementById("role");
 const userAddres = document.getElementById("addres");
@@ -15,6 +14,7 @@ const alertSuccess = document.getElementById("alertSuccess");
 const alertDanger = document.getElementById("alertDanger");
 const alertCedula = document.getElementById("alertCedula");
 const alertName = document.getElementById("alertName");
+const alertLastName = document.getElementById("alertLastName");
 const alertPhone = document.getElementById("alertPhone");
 const alertAddres = document.getElementById("alertAddres");
 const alertRole = document.getElementById("alertRole");
@@ -25,20 +25,15 @@ const alertRepeatPassword = document.getElementById("alertRepeatPassword");
 // uso las expresiones regulares para poder validar bien las contraseñas
 const regUserCedula = /^\d+$/;
 const regUserName = /^[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]+$/;
+const regUserLastName = /^[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]+$/;
 const regUserEmail = /^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$/;
 const regUserPhone = /^\d+$/;
 const regUserAddres = /[A-Za-z0-9]/;
 const regUserPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/;
 
-/* const pintarMensajeExito = () => {
-    alertSuccess.classList.remove("d-none");
-    alertSuccess.textContent = "Mensaje enviado con éxito";
-}; */
-
 //declaro la alerta de error por si las contraseñas no cumplen con lo requerido
 const showErrPasword = () => {
     alertDanger.classList.remove("d-none");
-    
 };
 
 //asigno la funcion para pintar los respectivos mensajes de error
@@ -50,10 +45,8 @@ const pintarMensajeError = (errores) => {
 };
 
 //llamo al evento listener para evitar el envio del formulario y hacer la respectiva validacion
-form.addEventListener("submit", (e) => {
+$('#form').submit(function(e){
     e.preventDefault();
-    
-    /* alertSuccess.classList.add("d-none"); */
 
     //declaro el array que me va a contener las diferentes alertas
     const errores = [];
@@ -85,6 +78,19 @@ form.addEventListener("submit", (e) => {
         userName.classList.add("is-valid");
         alertName.classList.add("d-none");
     }
+    // validar Apellido
+    if (!regUserLastName.test(userLastName.value) || !userLastName.value.trim()) {
+        userLastName.classList.add("is-invalid");
+
+        errores.push({
+            tipo: alertLastName,
+            msg: "Formato no válido campo Apellido, solo letras",
+        });
+    } else {
+        userLastName.classList.remove("is-invalid");
+        userLastName.classList.add("is-valid");
+        alertLastName.classList.add("d-none");
+    }
 
     // validar email
     if (!regUserEmail.test(userEmail.value) || !userEmail.value.trim()) {
@@ -101,7 +107,6 @@ form.addEventListener("submit", (e) => {
     }
     //pregunto si la variable existe porque depende el formulario se va a usar
     if(userRole){
-
         var role = userRole.options[userRole.selectedIndex].value;
         
         // validar Role
@@ -109,8 +114,6 @@ form.addEventListener("submit", (e) => {
             userRole?.classList.remove("is-invalid");
             userRole?.classList.add("is-valid");
             alertRole?.classList.add("d-none");
-    
-    
         } else {
             userRole.classList.add("is-invalid");
     
@@ -193,43 +196,10 @@ form.addEventListener("submit", (e) => {
     if (errores.length !== 0) {
         pintarMensajeError(errores);
         return;
-    }
-
-    //declaro la variable parametros para poder enviar los datos por metodo POST
-    var parametros = "";
-       
-    parametros = { 
-        
-        "userCedula" : userCedula.value,
-        "userName" : userName.value,
-        "userEmail" : userEmail.value,
-        "userAddres" : userAddres.value,
-        "userRole" : userRole.value,
-        "userPhone" : userPhone.value,
-        "userPassword" : userPassword.value,
-    };
-    
-    //utilizo el metodo ajax para poder enviar los datos por metodo POST para la respectiva insersion a la BD
-/*     $.ajax({
-        data: parametros,
-        url: 'index.php?action=/CreateUsers',
-        type: 'POST'
-        
-    })
-    .done(function(data){
-        swal("Listo!", "Usuario Guardado con Exito!,", "success")
+    }else{
+        swal("Listo!", "Usuario Guardado con Exito!", "success")
         .then((value) => {
-            if(window.location.pathname !== "/proyectos/SIPCIA_PHP/index.php?action=/CreateUsers"){
-                console.log(data);
-                window.location.replace(`ReadUsers.php`); 
-            }
+            this.submit();
         }) 
-    })
-    .fail(function(){
-
-        console.log('fallo');
-    });  */
-    
-
-
+    }
 });
